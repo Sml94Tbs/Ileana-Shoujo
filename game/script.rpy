@@ -5,6 +5,7 @@
 
 # Déclarez les personnages utilisés dans le jeu.
 define e = Character('Eileen', color="#c8ffc8")
+define a = Character(None, screen="say_anime")
 
 
 # Le jeu commence ici
@@ -14,4 +15,5 @@ label start:
 
     e "Après avoir ajouté une histoire, des images et de la musique, vous pourrez le présenter au monde entier !"
 
+    a 'Bonne chance pour votre projet de jeu !'
     return
