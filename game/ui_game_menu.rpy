@@ -12,62 +12,50 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         add gui.main_menu_background
     else:
         add gui.game_menu_background
+    frame:
+        style "game_menu_navigation_frame"
 
     frame:
-        style "game_menu_outer_frame"
+        style "game_menu_content_frame"
 
-        hbox:
+        if scroll == "viewport":
 
-            ## Réserve de l'expace pour la section de navigation.
-            frame:
-                style "game_menu_navigation_frame"
+            viewport:
+                yinitial yinitial
+                scrollbars "vertical"
+                mousewheel True
+                draggable True
+                pagekeys True
 
-            frame:
-                style "game_menu_content_frame"
+                side_yfill True
 
-                if scroll == "viewport":
-
-                    viewport:
-                        yinitial yinitial
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
-
-                        side_yfill True
-
-                        vbox:
-                            spacing spacing
-
-                            transclude
-
-                elif scroll == "vpgrid":
-
-                    vpgrid:
-                        cols 1
-                        yinitial yinitial
-
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
-
-                        side_yfill True
-
-                        spacing spacing
-
-                        transclude
-
-                else:
+                vbox:
+                    spacing spacing
 
                     transclude
 
+        elif scroll == "vpgrid":
+
+            vpgrid:
+                cols 1
+                yinitial yinitial
+
+                scrollbars "vertical"
+                mousewheel True
+                draggable True
+                pagekeys True
+
+                side_yfill True
+
+                spacing spacing
+
+                transclude
+
+        else:
+
+            transclude
+
     use navigation
-
-    textbutton _("Retour"):
-        style "return_button"
-
-        action Return()
 
     label title
 

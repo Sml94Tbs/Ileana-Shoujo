@@ -27,6 +27,8 @@ define config.version = "0.1.0"
 define gui.about = _p("""
 """)
 
+default _game_menu_screen = "pause_menu"
+
 
 ## Un nom court pour le jeu qui sera utilisé pour les répertoires et le nom de l’exécutable. Il ne doit contenir que des caractères ASCII et ne doit pas contenir d’espace, de virgules ou de points-virgules.
 

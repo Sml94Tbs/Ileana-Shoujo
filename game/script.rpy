@@ -7,7 +7,7 @@
 define e = Character('Eileen', color="#c8ffc8")
 define a = Character(None, screen="say_anime")
 
-
+image ok = "sfx/01 A.jpg"
 # Le jeu commence ici
 label start:
 
@@ -16,4 +16,9 @@ label start:
     e "Après avoir ajouté une histoire, des images et de la musique, vous pourrez le présenter au monde entier !"
 
     a 'Bonne chance pour votre projet de jeu !'
+
+    scene ok
+
+    e "yes"
+
     return

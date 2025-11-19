@@ -5,6 +5,12 @@
 style default:
     properties gui.text_properties()
     language gui.language
+    color gui.text_color
+    font gui.text_font
+    size gui.text_size
+    outlines [(2, "#000000aa", 0,0)]
+    line_overlap_split 1
+    line_spacing 1
 
 style input:
     properties gui.text_properties("input", accent=True)

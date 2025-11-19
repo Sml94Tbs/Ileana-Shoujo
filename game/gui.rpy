@@ -54,6 +54,9 @@ define gui.interface_text_color = '#ffffff'
 ## Les polices utilisées pour le texte du jeu.
 define gui.text_font = "fonts/HELVETICA.TTF"
 
+##Les poclices utilisées pour le menu et l’interface de jeu.
+define gui.interface_font = "fonts/times.ttf"
+
 ## Les polices utilisées pour le nom des personnages.
 define gui.name_text_font = "fonts/HELVETICA.TTF"
 
@@ -61,29 +64,29 @@ define gui.name_text_font = "fonts/HELVETICA.TTF"
 define gui.interface_text_font = "fonts/times.ttf"
 
 ## La taille normale pour les dialogues.
-define gui.text_size = 33
+define gui.text_size = 24
 
 ## La taille pour le nom des personnages.
-define gui.name_text_size = 45
+define gui.name_text_size = 24
 
 ## La taille du texte dans l’interface de jeu.
-define gui.interface_text_size = 33
+define gui.interface_text_size = 24
 
 ## La taille des libellés dans l’interface de jeu.
-define gui.label_text_size = 36
+define gui.label_text_size = 28
 
 ## La taille du texte dans la zone de notification.
-define gui.notify_text_size = 24
+define gui.notify_text_size = 16
 
 ## La taille du titre du jeu.
-define gui.title_text_size = 75
+define gui.title_text_size = 38 
 
 
 ## Menu du jeu et menu principal ###############################################
 
 ## Les images utilisées pour le menu principal et le menu du jeu.
-define gui.main_menu_background = "gui/main_menu.png"
-define gui.game_menu_background = "#0000004f"
+define gui.main_menu_background = "gui/uiiiiii.jpg"
+define gui.game_menu_background = "#00000044"
 
 
 ## Dialogue ####################################################################
@@ -98,18 +101,18 @@ define gui.textbox_yalign = 1.0
 
 
 ## L’emplacement relatif à la zone de texte du nom du personnage en train de parler. La valeur peut être un nombre entier de pixels depuis la gauche ou le haut ou 0.5 pour le centre.
-define gui.name_xpos = 360
-define gui.name_ypos = 0
+define gui.name_xpos = 490
+define gui.name_ypos = 15
 
 ## L’alignement horizontal du nom du personnage. La valeur peut être 0.0 pour un alignement à gauche, 0.5 pour le centrer et 1.0 pour un alignement à droite.
-define gui.name_xalign = 0.0
+define gui.name_xalign = 130
 
 ## La largeur, profondeur et les bords de la zone contenant le nom du personnage ou « None » pour le dimensionner automatiquement.
-define gui.namebox_width = None
-define gui.namebox_height = None
+define gui.namebox_width = 200
+define gui.namebox_height = 39
 
 ## Les bordures de la zone contenant le nom du personnage dans l’ordre suivant gauche, haut, droite, bas.
-define gui.namebox_borders = Borders(5, 5, 5, 5)
+define gui.namebox_borders = Borders(5, 5, 5, 2)
 
 ## Si « True » (vrai), l’arrière plan de zone du nom sera en mosaïque, si « False »(faux), l’arrière plan de la zone du nom sera mis à l’échelle.
 define gui.namebox_tile = False
@@ -120,7 +123,7 @@ define gui.dialogue_xpos = 402
 define gui.dialogue_ypos = 75
 
 ## La largeur maximale en pixels de la zone de dialogue.
-define gui.dialogue_width = 1116
+define gui.dialogue_width = 2.50
 
 ## L’alignement horizontal de la zone de dialogue. La valeur peut être 0.0 pour un alignement à gauche, 0.5 pour le centrer et 1.0 pour un alignement à droite.
 define gui.dialogue_text_xalign = 0.0
@@ -132,10 +135,10 @@ define gui.dialogue_text_xalign = 0.0
 
 ## La largeur et la hauteur d’un bouton en pixels. Si aucune valeur n’est renseignée (None), Ren’Py calcule la taille.
 define gui.button_width = None
-define gui.button_height = None
+define gui.button_height = 36
 
 ## Les bordures de chaque côté du bouton dans l’ordre suivant gauche, haut, droit, bas.
-define gui.button_borders = Borders(6, 6, 6, 6)
+define gui.button_borders = Borders(4, 4, 4, 4)
 
 ## Si « True » (vrai), l’image d’arrière plan sera en mosaïque, si « False »(faux), elle sera mise à l’échelle.
 define gui.button_tile = False
@@ -222,7 +225,7 @@ define gui.file_slot_rows = 2
 ## Ces variables contrôlent l’espacement et le positionnement des différents éléments de l’interface utilisateur.
 
 ## La position sur le côté gauche des boutons de navigation, relatif au côté gauche de l'écran.
-define gui.navigation_xpos = 60
+define gui.navigation_xpos = 80
 
 ## La position vertical du l’indicateur de saut des dialogues.
 define gui.skip_ypos = 15
@@ -234,7 +237,7 @@ define gui.notify_ypos = 68
 define gui.choice_spacing = 33
 
 ## Boutons dans la section de navigation du menu principal et du menu de jeu.
-define gui.navigation_spacing = 6
+define gui.navigation_spacing = 20
 
 ## Contrôle l’espacement entre les préférences.
 define gui.pref_spacing = 15

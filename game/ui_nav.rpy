@@ -61,8 +61,10 @@ screen navigation():
 
 
 style navigation_button is gui_button
-style navigation_button_text is gui_button_text
+style navigation_button_text is empty
 
+style navigation_button_text:
+    font gui.interface_font
 style navigation_vbox:
     xalign 0.5
     yalign 0.9
