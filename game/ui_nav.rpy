@@ -30,10 +30,13 @@ screen navigation():
             textbutton _("QUITTER") action Quit(confirm=True)
 
         else:
+            spacing gui.navigation_spacing
+            xalign 0.5
+            yalign 0.7
 
             textbutton _("Historique") action ShowMenu("history")
 
-            textbutton _("Sauvegarde") action ShowMenu("save")
+            
 
 
         if _in_replay:
@@ -43,6 +46,8 @@ screen navigation():
         elif not main_menu:
 
             textbutton _("Menu principal") action MainMenu()
+
+            textbutton _("Sauvegarde") action ShowMenu("save")
 
             textbutton _("Charger") action ShowMenu("load")
 
@@ -74,4 +79,6 @@ style navigation_button:
 
 style navigation_button_text:
     xalign 0.5
+    font gui.interface_text_font
+    size 30
     properties gui.text_properties("navigation_button")

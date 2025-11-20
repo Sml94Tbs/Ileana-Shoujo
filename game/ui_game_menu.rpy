@@ -12,6 +12,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         add gui.main_menu_background
     else:
         add gui.game_menu_background
+
     frame:
         style "game_menu_navigation_frame"
 
@@ -19,49 +20,58 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         style "game_menu_content_frame"
 
         if scroll == "viewport":
-
             viewport:
                 yinitial yinitial
                 scrollbars "vertical"
                 mousewheel True
                 draggable True
                 pagekeys True
-
                 side_yfill True
 
                 vbox:
                     spacing spacing
-
                     transclude
 
         elif scroll == "vpgrid":
-
             vpgrid:
                 cols 1
                 yinitial yinitial
-
                 scrollbars "vertical"
                 mousewheel True
                 draggable True
                 pagekeys True
-
                 side_yfill True
-
                 spacing spacing
-
                 transclude
 
         else:
-
             transclude
 
-    use navigation
+    # --- MODIFICATIONS ICI ---
+
+    # 1. ON A SUPPRIMÉ LA LIGNE "use navigation"
+    # Cela empêche la liste des boutons de s'afficher dans les sous-menus.
+
+    # 2. ON MODIFIE LE BOUTON RETOUR
+    textbutton _("Retour"):
+        style "return_button"
+
+        if main_menu:
+            # Si on est au menu principal, retour au titre
+            action ShowMenu("main_menu")
+        else:
+            # Si on est en jeu, retour au MENU PAUSE (votre hub)
+            action ShowMenu("pause_menu")
 
     label title
 
+    # GESTION DU CLIC DROIT / ECHAP
     if main_menu:
+        # Au menu principal : Retour à l'écran titre
         key "game_menu" action ShowMenu("main_menu")
-
+    else:
+        # En jeu : Retour au HUB (Pause Menu)
+        key "game_menu" action ShowMenu("pause_menu")
 
 style game_menu_outer_frame is empty
 style game_menu_navigation_frame is empty
