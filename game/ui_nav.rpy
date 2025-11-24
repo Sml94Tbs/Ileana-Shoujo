@@ -7,6 +7,7 @@
 ## Cet écran est disponible dans le menu principal et dans le menu de jeu. Il fournit l’accès aux autres menus et permet le démarrage du jeu.
 
 label intro_transition:
+    hide screen main_menu_effects
     $ quick_menu = False
     stop music fadeout 2.0
     scene black with Fade(1.5, 0.0, 1.0)
@@ -90,6 +91,8 @@ style navigation_button_text:
     font gui.interface_text_font
     size 30
     idle_color "#ffffff"
+    hover_background "animated_glow"
+    idle_background None
     hover_color "#ff81ca"
     selected_color "#ffcc00"
     outlines [ (2, "#000000", 0, 0) ]

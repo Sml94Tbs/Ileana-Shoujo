@@ -4,12 +4,19 @@
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#main-menu
 
+# Ce label spécial est appelé par Ren'Py juste avant le menu principal
+label before_main_menu:
+    # On affiche l'écran d'effets de manière permanente
+    show screen main_menu_effects
+    return
 screen main_menu():
 
     ## Ceci assure que tout autre screen de menu est remplacé.
     tag menu
 
     add gui.main_menu_background
+
+    use main_menu_effects
 
     ## L'instruction use inclut un autre écran à l'intérieur de celui-ci. Le vrai contenu du menu principal se trouve dans l'écran "navigation".
     use navigation

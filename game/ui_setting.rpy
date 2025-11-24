@@ -11,11 +11,13 @@ screen preferences():
 
     use game_menu(_("Préférences"), scroll="viewport"):
 
-        vbox:
+        vbox: # Conteneur principal pour centrer tout le contenu
+            xalign 0.5
+            yalign 0.5
+            spacing 25
 
             hbox:
-                box_wrap True
-
+                spacing 30
                 if renpy.variant("pc") or renpy.variant("web"):
 
                     vbox:
@@ -33,11 +35,10 @@ screen preferences():
 
                 ## Des boites vbox additionnelles de type "radio_pref" ou "check_pref" peuvent être ajoutées ici pour ajouter des préférences définies par le créateur du jeu.
 
-            null height (4 * gui.pref_spacing)
-
             hbox:
                 style_prefix "slider"
-                box_wrap True
+                spacing 30
+                xalign 0.5 # Centrer les sliders
 
                 vbox:
 
@@ -154,5 +155,3 @@ style slider_button_text:
 
 style slider_vbox:
     xsize 675
-
-

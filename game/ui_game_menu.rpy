@@ -10,13 +10,16 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     if main_menu:
         add gui.main_menu_background
+        # null
     else:
         add gui.game_menu_background
 
     frame:
+        # On applique un style différent selon si on est au menu ou en jeu
         style "game_menu_content_frame"
 
         if scroll == "viewport":
+            
             viewport:
                 yinitial yinitial
                 scrollbars "vertical"
@@ -27,6 +30,7 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
                 vbox:
                     spacing spacing
+                    xalign 0.5
                     transclude
 
         elif scroll == "vpgrid":
@@ -83,6 +87,12 @@ style game_menu_label_text is gui_label_text
 style return_button is navigation_button
 style return_button_text is navigation_button_text
 
+# # Ce style hérite du cadre normal, mais force le fond à être transparent
+# style game_menu_outer_frame_transparent is game_menu_outer_frame:
+#     background None
+#     # Si tu as une image overlay (genre des engrenages ou un cadre fin), tu peux la laisser ici.
+#     # Mais surtout pas de Solid("#000000") !
+
 style game_menu_outer_frame:
     bottom_padding 45
     top_padding 180
@@ -92,17 +102,22 @@ style game_menu_outer_frame:
 style game_menu_navigation_frame:
     xsize 420
     yfill True
-
+# 1. On équilibre les marges pour que ce soit symétrique
 style game_menu_content_frame:
-    left_margin 60
-    right_margin 30
+    # Avant c'était : left 60, right 30. Le décalage venait de là.
+    left_margin 45
+    right_margin 45
     top_margin 15
 
+# 2. On s'assure que la boite de défilement (Viewport) est elle-même centrée
 style game_menu_viewport:
     xsize 1380
+    xalign 0.5 # Ajout crucial pour le centrage horizontal
 
+# 3. (Optionnel) Ajustement de la barre de défilement pour qu'elle ne colle pas trop
 style game_menu_vscrollbar:
     unscrollable gui.unscrollable
+    xoffset 10 # Décale légèrement la barre vers la droite si elle gêne
 
 style game_menu_side:
     spacing 15
