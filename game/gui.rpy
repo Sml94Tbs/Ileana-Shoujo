@@ -63,6 +63,8 @@ define gui.name_text_font = "fonts/HELVETICA.TTF"
 ## Les polices utilisées pour les textes « hors du jeu ».
 define gui.interface_text_font = "fonts/times.ttf"
 
+define gui.anime_dialogue_font = "fonts/Rosario-Regular.otf"
+
 ## La taille normale pour les dialogues.
 define gui.text_size = 24
 

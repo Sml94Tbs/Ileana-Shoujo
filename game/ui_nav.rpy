@@ -6,6 +6,14 @@
 ##
 ## Cet écran est disponible dans le menu principal et dans le menu de jeu. Il fournit l’accès aux autres menus et permet le démarrage du jeu.
 
+label intro_transition:
+    $ quick_menu = False
+    stop music fadeout 2.0
+    scene black with Fade(1.5, 0.0, 1.0)
+    pause 0.5
+    jump start
+    return
+
 screen navigation():
 
     if main_menu:
@@ -24,7 +32,7 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("NOUVELLE PARTIE") action Start()
+            textbutton _("NOUVELLE PARTIE") action Start("intro_transition")
             textbutton _("CONTINUER") action ShowMenu("load")
             textbutton _("CONFIGURATION") action ShowMenu("preferences")
             textbutton _("QUITTER") action Quit(confirm=True)
@@ -81,4 +89,8 @@ style navigation_button_text:
     xalign 0.5
     font gui.interface_text_font
     size 30
+    idle_color "#ffffff"
+    hover_color "#ff81ca"
+    selected_color "#ffcc00"
+    outlines [ (2, "#000000", 0, 0) ]
     properties gui.text_properties("navigation_button")

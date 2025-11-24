@@ -14,9 +14,6 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
         add gui.game_menu_background
 
     frame:
-        style "game_menu_navigation_frame"
-
-    frame:
         style "game_menu_content_frame"
 
         if scroll == "viewport":
