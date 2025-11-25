@@ -4,7 +4,7 @@ init python:
         ("BGM BoomBap", "audio/bgm/bgm_boombapv4.mp3"),
         ("BGM TrapSoul",   "audio/bgm/bgm_trapsoul.ogg"),
         ("Combat Boss",     "audio/bgm/battle_boss.opus"),
-        ("Tristesse",       "audio/bgm/sad_piano.ogg"),
+        ("Tristesse",       "audio/bgm/test5.mp3"),
         # Ajoute autant de musiques que tu veux ici !
     ]
 
@@ -54,7 +54,7 @@ screen sound_room():
                     # 2. On joue IMMÉDIATEMENT la nouvelle musique correspondante
                     action [
                         SetScreenVariable("idx", idx - 1), 
-                        Play("music", get_track_info(idx - 1)[1][1], fadeout=1.0, fadein=1.0)
+                        Play("music", get_track_info(idx - 1)[1][1])
                     ]
 
                 # NOM DE LA MUSIQUE (Dynamique)
@@ -80,7 +80,7 @@ screen sound_room():
                     text_size 60
                     action [
                         SetScreenVariable("idx", idx + 1), 
-                        Play("music", get_track_info(idx + 1)[1][1], fadeout=1.0, fadein=1.0)
+                        Play("music", get_track_info(idx + 1)[1][1])
                     ]
 
             # --- INFOS FICHIER (Optionnel) ---
@@ -91,4 +91,14 @@ screen sound_room():
     textbutton _("Retour"):
         style "return_button"
         # Stop la musique quand on part ? Ou on laisse jouer ?
-        action [Stop("music", fadeout=1.0), Return()]
+        action [Stop("music", fadeout=0.5), Return()]
+
+style soundtest_frame:
+    xpadding 50
+    ypadding 50
+    background Solid("#000000aa") # Fond noir semi-transparent
+
+style soundtest_button_text:
+    color "#ffffff"
+    hover_color "#ffcc00" # Jaune au survol
+    outlines [ (2, "#000000", 0, 0) ]
