@@ -27,6 +27,7 @@ screen navigation():
             textbutton _("NOUVELLE PARTIE") action Start()
             textbutton _("CONTINUER") action ShowMenu("load")
             textbutton _("CONFIGURATION") action ShowMenu("preferences")
+            textbutton _("SOUNDTESST") action ShowMenu("sound_room")
             textbutton _("QUITTER") action Quit(confirm=True)
 
         else:
