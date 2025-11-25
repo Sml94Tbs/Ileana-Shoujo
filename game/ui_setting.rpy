@@ -13,11 +13,12 @@ screen preferences():
 
         vbox: # Conteneur principal pour centrer tout le contenu
             xalign 0.5
-            yalign 0.5
-            spacing 25
+            yalign 0.6
+            null height 50
 
             hbox:
-                spacing 30
+                xalign 0.5
+                spacing 120 # Espace large entre la colonne gauche et droite
                 if renpy.variant("pc") or renpy.variant("web"):
 
                     vbox:
@@ -34,10 +35,10 @@ screen preferences():
                     textbutton _("Transitions") action InvertSelected(Preference("transitions", "toggle"))
 
                 ## Des boites vbox additionnelles de type "radio_pref" ou "check_pref" peuvent être ajoutées ici pour ajouter des préférences définies par le créateur du jeu.
-
+            null height 80
             hbox:
                 style_prefix "slider"
-                spacing 30
+                spacing 80
                 xalign 0.5 # Centrer les sliders
 
                 vbox:
@@ -120,7 +121,10 @@ style pref_label_text:
     yalign 1.0
 
 style pref_vbox:
-    xsize 338
+    # xsize 338  <-- SUPPRIMEZ OU COMMENTEZ CETTE LIGNE
+    # Si on fixe la taille, le centrage (xalign 0.5) ne marche pas bien visuellement 
+    # si le contenu est plus petit que 338px.
+    xsize None
 
 style radio_vbox:
     spacing gui.pref_button_spacing
@@ -142,9 +146,9 @@ style check_button:
 style check_button_text:
     properties gui.text_properties("check_button")
 
+# On garde les styles des sliders pour qu'ils aient une bonne longueur
 style slider_slider:
-    xsize 525
-
+    xsize 450 # Ajustez la longueur de la barre ici (525 était peut-être trop grand)
 style slider_button:
     properties gui.button_properties("slider_button")
     yalign 0.5
@@ -154,4 +158,5 @@ style slider_button_text:
     properties gui.text_properties("slider_button")
 
 style slider_vbox:
-    xsize 675
+    # xsize 675 <-- IDEM, COMMENTEZ CA
+    xsize None

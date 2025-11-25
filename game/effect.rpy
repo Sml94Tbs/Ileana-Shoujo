@@ -38,15 +38,10 @@ image particle_texture:
     alpha 0.8
     blur 4 # On le floute pour faire "lumière"
 
-# Le dégradé : Un rectangle qui va du transparent au blanc
-image gradient_texture:
-    # Transforme un Solid blanc en dégradé vertical
-    Solid("#ffffff")
-    ysize 500 # Hauteur du dégradé
-    alpha 0.0 # Commence transparent
-    # Masque alpha pour créer le dégradé (bas opaque -> haut transparent)
-    # (Note: Si tu as une image PNG de dégradé, utilise-la ici à la place)
-    # mask "gui/gradient_mask.png"
+
+
+# Remplace le bloc précédent par ça si tu as l'image :
+image gradient_texture = "gui/gradient_overlay.png"
 
 # Mouvement d'une particule (Bas -> Haut)
 transform particle_move(speed, delay):
@@ -89,15 +84,27 @@ screen main_menu_effects():
     zorder -100 
     
     # PAS DE 'tag menu' ICI ! C'est le secret.
-
+    # Récupération de la couleur de la route (définie dans votre python init)
     $ current_col = get_theme_color()
 
+    # --- Étape 1 : Fond noir/sombre pour l'overlay ---
+    # Ajoute un rectangle noir sur toute la zone pour assombrir le fond.
+    # L'opacité (alpha 0.8) rend le noir semi-transparent.
+    # add Solid("#000000") alpha 0.8
+    # --- Étape 2 : L'effet de dégradé Accordéon ---
+    # On ajoute le dégradé lumineux (gradient_texture) qui a le mouvement.
+    # Il est important de spécifier où il se trouve (alignement en bas).
     # --- Ton code de dégradé et particules ---
-    add "gradient_texture":
+    add "four_band_gradient":
+    # Aligné en bas et centré
+        xalign 0.5 
+        yalign 1.0
+        matrixcolor TintMatrix(current_col)
         at accordion_effect
-        matrixcolor TintMatrix(current_col) 
         blend "add"
 
+    # --- Étape 3 : Les particules (qui doivent être au-dessus du fond noir) ---
+    # Nous les laissons ici, car elles sont déjà au-dessus du fond noir
     for p in particle_data:
         add "particle_texture":
             xalign p["x"] 
@@ -105,3 +112,62 @@ screen main_menu_effects():
             matrixcolor TintMatrix(current_col)
             at particle_move(p["speed"], p["delay"])
             blend "add"
+
+# On définit la forme géométrique du dégradé en 4 bandes
+image four_band_gradient:
+    # On définit la taille globale de l'image
+    ysize 600
+    
+    # --- BANDE 1 : La plus haute (Très transparente) ---
+    contains:
+        Solid("#ffffff3b")
+        xsize config.screen_width 
+        ysize 600
+        alpha 0.1
+        yalign 1.0 # Collé en bas
+        
+    # --- BANDE 2 : Moyenne haute ---
+    contains:
+        Solid("#ffffff44")
+        xsize config.screen_width 
+        ysize 450
+        alpha 0.3
+        yalign 1.0
+
+    # --- BANDE 3 : Moyenne basse ---
+    contains:
+        Solid("#ffffff7c")
+        xsize config.screen_width 
+        ysize 300
+        alpha 0.5
+        yalign 1.0
+
+    # --- BANDE 4 : La plus basse (Très opaque) ---
+    contains:
+        Solid("#ffffffc7")
+        xsize config.screen_width 
+        ysize 150
+        alpha 0.8
+        yalign 1.0
+    # --- LA TOUCHE FINALE : LE FLOU ---
+    # Cette ligne s'applique au résultat final des "contains" ci-dessus.
+    # Une valeur entre 20 et 50 donnera un résultat très doux.
+    blur 70
+
+transform accordion_effect:
+    yalign 1.0 # L'animation part du bas
+    xalign 0.5
+    
+    # On commence un peu petit
+    yzoom 0.8 alpha 0.8
+    
+    parallel:
+        # Effet d'étirement vertical (Accordéon)
+        ease 4.0 yzoom 1.2 # S'étire vers le haut
+        ease 4.0 yzoom 0.8 # Se rétracte
+        repeat
+    parallel:
+        # Légère variation d'intensité globale
+        ease 3.0 alpha 1.0
+        ease 5.0 alpha 0.7
+        repeat

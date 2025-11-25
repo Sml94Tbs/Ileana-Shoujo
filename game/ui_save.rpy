@@ -123,7 +123,11 @@ style page_label:
     xpadding 75
     ypadding 5
     xalign 0.5
-
+    
+    # --- AJOUTEZ CECI ---
+    # Cela place le texte à 12% de la hauteur de l'écran (en partant du haut)
+    # Vous pouvez ajuster ce chiffre (ex: 0.15 pour descendre, 0.10 pour monter)
+    yalign 0.12
 style page_label_text:
     textalign 0.5
     layout "subtitle"

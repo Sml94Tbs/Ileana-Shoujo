@@ -242,7 +242,7 @@ define gui.choice_spacing = 33
 define gui.navigation_spacing = 20
 
 ## Contrôle l’espacement entre les préférences.
-define gui.pref_spacing = 15
+define gui.pref_spacing = 30
 
 ## Contrôle l’espacements entre les boutons de préférences.
 define gui.pref_button_spacing = 0
