@@ -5,6 +5,8 @@
 
 # Déclarez les personnages utilisés dans le jeu.
 define e = Character('Eileen', color="#c8ffc8")
+define nv = Character('Ileana' ,kind=nvl, color="#ffc8c8")
+define narrator = nvl_narrator
 define a = Character(None, screen="say_anime", what_prefix="{cps=0}", what_suffix="{/cps}")
 
 image ok = "sfx/01 A.jpg"
@@ -41,5 +43,22 @@ label start:
     $ quick_menu = True
 
     e "yes"
+
+    narrator "The End."
+    narrator "Je ne pense que cela soit du à une erreu de ta partujguguyyfgufffttyfrtytfyftyftftfyfytftyftftyfftyftfyfyttrtrtrtrturyturytrutyrutyrutyrutryutryutry"
+    narrator "Je ne pense que cela soit du à une erreu de ta part"
+    narrator "Il me faudrait surment un endroit ou amener ces ames égaréés"
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
+    $ gui.nvl_bg_bool = False
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
+    scene white
+    $ gui.nvl_bg_bool = True
+    narrator "Viens a moi jeune"
+    narrator "Viens a moi jeune"
 
     return

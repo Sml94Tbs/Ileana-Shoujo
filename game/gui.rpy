@@ -337,29 +337,33 @@ define gui.history_text_xalign = 0.0
 ##
 ## L’écran du mode NVL affiche les dialogues prononcés par les personnages eux-mêmes en mode NVL.
 
+
+define gui.nvl_default_background = "gui/nvl.png"
+define gui.nvl_bg_bool = True
+
 ## Les bordures de l’arrière-plan de la fenêtre en mode NVL.
-define gui.nvl_borders = Borders(0, 15, 0, 30)
+define gui.nvl_borders = Borders(0, 350, 0, 0)
 
 ## Le nombre maximum d'entrées en mode NVL que Ren'Py affichera. Quand plus d'entrées sont affichées, les plus anciennes seront retirées.
-define gui.nvl_list_length = 6
+define gui.nvl_list_length = 20
 
 ## La hauteur d’une entrée en mode NVL. Initialisez-la à « None » pour que la hauteur des entrées s’ajuste automatiquement.
-define gui.nvl_height = 173
+define gui.nvl_height = None
 
 ## L’espacement entre les entrées en mode NVL quand gui.nvl_height est à « None » et entre les entrées en mode NVL et le menu en mode NVL.
-define gui.nvl_spacing = 15
+define gui.nvl_spacing = 0
 
 ## La position, largeur et alignement du label donnant le nom du personnage en train de parler.
 define gui.nvl_name_xpos = 645
-define gui.nvl_name_ypos = 0
+define gui.nvl_name_ypos = 0    
 define gui.nvl_name_width = 225
 define gui.nvl_name_xalign = 1.0
 
 ## La position, largeur et alignement de la zone de dialogue.
 define gui.nvl_text_xpos = 675
 define gui.nvl_text_ypos = 12
-define gui.nvl_text_width = 885
-define gui.nvl_text_xalign = 0.0
+define gui.nvl_text_width = 1200
+define gui.nvl_text_xalign = 0.5
 
 ## La position, profondeur et l’alignement du text nvl_tought (Le texte prononcé par le personnage nvl_narrator).
 define gui.nvl_thought_xpos = 360

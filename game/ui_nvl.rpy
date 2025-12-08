@@ -7,8 +7,12 @@
 
 screen nvl(dialogue, items=None):
 
+    $ current_bg = gui.nvl_default_background if gui.nvl_bg_bool else None
+
     window:
         style "nvl_window"
+
+        background current_bg
 
         has vbox:
             spacing gui.nvl_spacing
@@ -71,12 +75,12 @@ style nvl_window:
     xfill True
     yfill True
 
-    background "gui/nvl.png"
+
     padding gui.nvl_borders.padding
 
 style nvl_entry:
     xfill True
-    ysize gui.nvl_height
+    ysize None
 
 style nvl_label:
     xpos gui.nvl_name_xpos
