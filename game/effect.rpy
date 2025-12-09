@@ -19,6 +19,12 @@ init python:
         theme = theme_config.get(persistent.menu_theme, theme_config["default"])
         return Color(theme["color"])
 
+    # Fonction pour créer une particule de lumière (un petit cercle flou)
+    def get_particle_image(color):
+        return Transform(Text("•", color=color, size=20, outlines=[(2, color, 0, 0)]), alpha=0.8)
+
+
+
     # 3. Générateur de positions aléatoires pour les particules (Pro Tip)
     # On génère une liste de positions fixes au démarrage pour éviter que
     # les particules ne sautent partout à chaque rafraîchissement d'écran.
@@ -32,13 +38,40 @@ init python:
         }
         particle_data.append(d)
 
+    # 1. Fonction principale
+    def NavEffect(color_hex):
+        return Fixed(
+            # A. L'Effet Accordéon
+            # CORRECTION : On utilise At() au lieu de Transform(..., at_list=...)
+            At(Solid(color_hex), accordion_transform),
+            
+            # B. Emetteur Gauche (Positionné avec Transform, animé à l'intérieur)
+            Transform(get_particle_burst(color_hex, -1), align=(0.1, 0.5)),
+            
+            # C. Emetteur Droite
+            Transform(get_particle_burst(color_hex, 1), align=(0.9, 0.5)),
+            
+            # Taille du bouton (Ajuste xysize selon tes besoins)
+            xysize=(300, 45), 
+            fit_first=False
+        )
+
+    # 2. Fonction pour les particules
+    def get_particle_burst(color, direction):
+        return Fixed(
+            # CORRECTION : On utilise At() ici aussi
+            At(Text("•", color=color, size=15), particle_anim(direction, 0.0)),
+            At(Text("•", color=color, size=10), particle_anim(direction, 0.2)),
+            xysize=(10, 10)
+        )
 # Une particule : Un cercle blanc flou
 image particle_texture:
     Text("•", size=50, color="#fff") # Un simple point texte
     alpha 0.8
     blur 4 # On le floute pour faire "lumière"
 
-
+    # Définition de l'image de fond qui fera l'accordéon
+image glow_bg_white = Frame(Solid("#ffffff"), 0, 0)
 
 # Remplace le bloc précédent par ça si tu as l'image :
 image gradient_texture = "gui/gradient_overlay.png"
@@ -171,3 +204,38 @@ transform accordion_effect:
         ease 3.0 alpha 1.0
         ease 5.0 alpha 0.7
         repeat
+
+
+# 3. Les Animations (ATL) restent inchangées
+transform accordion_transform:
+    yzoom 0.0 alpha 0.0
+    
+    on hover:
+        parallel:
+            easein 0.2 yzoom 1.0
+        parallel:
+            easein 0.2 alpha 0.4
+
+    on idle:
+        easeout 0.2 yzoom 0.0 alpha 0.0
+
+transform particle_anim(direction, delay_t):
+    # direction -1 = gauche, 1 = droite
+    alpha 0.0 xoffset 0 zoom 1.0
+    
+    on hover:
+        pause delay_t
+        block:
+            parallel:
+                easeout 0.8 xoffset (direction * 50)
+            parallel:
+                easeout 0.8 alpha 0.0
+            parallel:
+                linear 0.8 zoom 0.0
+            
+            # Reset
+            xoffset 0 alpha 1.0 zoom 1.0
+            repeat
+
+    on idle:
+        alpha 0.0

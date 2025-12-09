@@ -15,3 +15,23 @@ transform glow_pulse:
 # Si vous n'avez pas d'image (Version Test avec un rectangle généré) :
 # On crée un rectangle blanc, flou sur les bords (Frame)
 image animated_glow = At(Frame(Solid("#ffcc00"), 10, 10), glow_pulse)
+
+define dissolve = Dissolve(0.25)
+
+define dissolve_all_scene = MultipleTransition([
+    False,
+    Dissolve(1.0),
+    Solid("#000000"),
+    Pause(0.5),
+    Solid("#000000"),
+    Dissolve(1.25),
+    True 
+])
+
+define dissolve_half_scene = MultipleTransition([
+    Solid("#000000"),
+    Pause(1.0),
+    Solid("#000000"),
+    Dissolve(1.0),
+    True
+])

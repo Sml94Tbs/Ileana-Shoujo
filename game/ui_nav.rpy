@@ -24,7 +24,7 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("NOUVELLE PARTIE") action Start()
+            textbutton _("NOUVELLE PARTIE") action Start() background NavEffect("#00d4ff")
             textbutton _("CONTINUER") action ShowMenu("load")
             textbutton _("CONFIGURATION") action ShowMenu("preferences")
             textbutton _("SOUNDTESST") action ShowMenu("sound_room")
@@ -67,26 +67,23 @@ screen navigation():
 
 
 style navigation_button is gui_button
-style navigation_button_text is empty
+style navigation_button_text is gui_button_text
 
-
-
-style navigation_button_text:
-    font gui.interface_font
 style navigation_vbox:
     xalign 0.5
     yalign 0.9
+
 style navigation_button:
     size_group "navigation"
     properties gui.button_properties("navigation_button")
+    # IMPORTANT : On retire le background par défaut ici s'il y en a un qui gêne
+    # mais ton code avait déjà 'idle_background None', donc c'est parfait.
 
 style navigation_button_text:
     xalign 0.5
     font gui.interface_text_font
     size 30
     idle_color "#ffffff"
-    hover_background "animated_glow"
-    idle_background None
     hover_color "#ff81ca"
     selected_color "#ffcc00"
     outlines [ (2, "#000000", 0, 0) ]

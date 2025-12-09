@@ -12,16 +12,16 @@ define a = Character(None, screen="say_anime", what_prefix="{cps=0}", what_suffi
 image ok = "sfx/01 A.jpg"
 # Le jeu commence ici
 label start:
-    hide screen main_menu_effects
     $ quick_menu = False
+    hide screen main_menu_effects
     stop music fadeout 2.0
-    scene black with Fade(1.5, 0.0, 1.0)
+    with dissolve_all_scene
     window hide
     pause 1.0
     show text "MSSML Present"
     with dissolve
     pause (5)
-    scene black with fade
+    scene black with dissolve_all_scene
     pause 0.5
     window auto
     $ quick_menu = True
