@@ -44,6 +44,15 @@ label start:
 
     e "yes"
 
+    show anneko at t32
+
+
+    "Anneko" "Coucou"
+
+    show anneko
+
+    "Anneko" "Je suis là !"
+
     narrator "The End."
     narrator "Je ne pense que cela soit du à une erreu de ta partujguguyyfgufffttyfrtytfyftyftftfyfytftyftftyfftyftfyfyttrtrtrtrturyturytrutyrutyrutyrutryutryutry"
     narrator "Je ne pense que cela soit du à une erreu de ta part"

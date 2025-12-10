@@ -24,9 +24,11 @@ screen navigation():
 
         if main_menu:
 
-            textbutton _("NOUVELLE PARTIE") action Start() background NavEffect("#00d4ff")
+            textbutton _("NOUVELLE PARTIE") action Start() background NavEffect("#006eff")
             textbutton _("CONTINUER") action ShowMenu("load")
             textbutton _("CONFIGURATION") action ShowMenu("preferences")
+            if config.developer: # S'affiche uniquement en mode développeur
+                textbutton "Salle Test Sprites" action ShowMenu("sprite_tester")
             textbutton _("SOUNDTESST") action ShowMenu("sound_room")
             textbutton _("QUITTER") action Quit(confirm=True)
 
