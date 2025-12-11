@@ -23,7 +23,7 @@ define config.check_conflicting_properties = True
 ## Les couleurs du texte dans l’interface.
 
 ## Une couleur utilisée dans l’interface pour mettre l’accent sur un texte (surbrillance).
-define gui.accent_color = '#0099cc'
+define gui.accent_color = '#ffffff'
 
 ## La couleur utilisée pour le texte d’un bouton quand il n’a jamais été sélectionné ou survolé.
 define gui.idle_color = '#888888'
@@ -107,7 +107,7 @@ define gui.name_xpos = 490
 define gui.name_ypos = 15
 
 ## L’alignement horizontal du nom du personnage. La valeur peut être 0.0 pour un alignement à gauche, 0.5 pour le centrer et 1.0 pour un alignement à droite.
-define gui.name_xalign = 130
+define gui.name_xalign = 0.5
 
 ## La largeur, profondeur et les bords de la zone contenant le nom du personnage ou « None » pour le dimensionner automatiquement.
 define gui.namebox_width = 200

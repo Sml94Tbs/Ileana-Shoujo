@@ -70,9 +70,11 @@ style namebox:
     padding gui.namebox_borders.padding
 
 style say_label:
-    properties gui.text_properties("name", accent=True)
+    color gui.accent_color
     xalign gui.name_xalign
     yalign 0.5
+    outlines [ (3, "#56db", 0, 0), (1, "#56db", 1, 1) ]
+    properties gui.text_properties("name", accent=True)
 
 style say_dialogue:
     properties gui.text_properties("dialogue")

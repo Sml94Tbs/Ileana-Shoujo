@@ -44,14 +44,27 @@ label start:
 
     e "yes"
 
-    show anneko at t32
+    show anneko at t_center
+
+    "Anneko" "Et là je suis tout près !"
+
+    show anneko at t_left
+    
 
 
     "Anneko" "Coucou"
 
-    show anneko
+    show anneko at t_right
+
+    
 
     "Anneko" "Je suis là !"
+
+    show anneko at t_center_close
+
+    "Anneko" "Je suis toute proche !"
+
+    show anneko at t_left_close
 
     narrator "The End."
     narrator "Je ne pense que cela soit du à une erreu de ta partujguguyyfgufffttyfrtytfyftyftftfyfytftyftftyfftyftfyfyttrtrtrtrturyturytrutyrutyrutyrutryutryutry"
