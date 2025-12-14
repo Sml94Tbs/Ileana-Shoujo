@@ -4,25 +4,25 @@ init python:
     # ---------------------------------------------------------
     
     all_chars_data = {
-        # --- PERSONNAGE 1 : ALICE ---
         "Anneko": {
             "Base": ["anneko"], # Le tag de base (ex: 'show anneko')
-            "Outfit": ["schoolA", "casual", "sport"],
-            "Yeux": ["normal", "happy", "angry"],
-            "Bouche": ["smile", "pout"]
+            "Outfit": ["schoolA"],
+            "Yeux": ["normal"],
+            "Bouche": ["smile"]
         },
         
-        # --- PERSONNAGE 2 : BOB (Exemple) ---
-        "itsuka": {
+        "Itsuka": {
             "Base": ["itsuka"],
-            "Outfit": ["school", "swimsuit"],
-            "Yeux": ["normal", "surprised", "scared"]
+            "Outfit": ["schoolA"],
+            "Yeux": ["normal"]
         },
 
-        # --- PERSONNAGE 3 : EILEEN (Exemple) ---
-        "Eileen": {
-            "Base": ["eileen"],
-            "Mood": ["vhappy", "happy", "neutral", "concerned"]
+        "Mako": {
+            "Base": ["mako"],
+            "Outfit": ["schoolA"],
+            "Yeux": ["normal", "sideEyeR"],
+            "Eyebrowns": ["ignore"],
+            "Mouth": ["normal", "open"]
         }
     }
     
