@@ -57,3 +57,11 @@ layeredimage mako:
     group mouth:
         attribute open:
             "images/character/mako/m_mouth2_A.png"
+
+layeredimage mikuzaki:
+    group pose:
+        attribute base default:
+            "images/character/mikuzaki/mkz_body_A.png"
+    group outfit:
+        attribute schoolA default:
+            "images/character/mikuzaki/mkz_schoolType1_A.png"

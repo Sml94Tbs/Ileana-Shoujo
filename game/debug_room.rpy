@@ -23,6 +23,12 @@ init python:
             "Yeux": ["normal", "sideEyeR"],
             "Eyebrowns": ["ignore"],
             "Mouth": ["normal", "open"]
+        },
+
+        "Mikuzaki": {
+            "Base": ["mikuzaki"],
+            "Outfit": ["schoolA"],
+            "Yeux": ["normal"]
         }
     }
     

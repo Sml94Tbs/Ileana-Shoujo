@@ -131,6 +131,14 @@ define config.save_directory = "IleanaShoujo-1763252719"
 
 define config.window_icon = "gui/window_icon.png"
 
+# Met sur False car tu sais que ton CPU galère, 
+# mais tu pourras le mettre sur True dans un menu d'options pour les joueurs avec un gros PC.
+default persistent.allow_transparent_window = False 
+
+# Image du placeholder (Plan B)
+# Tu peux prendre une capture d'écran d'un bureau générique ou une texture "Matrix/Cyberpunk"
+image bg placeholder_desktop = Solid("#333a")  # Remplace par une image réelle dans le dossier images/bg/
+
 
 ## Configuration de la compilation #############################################
 ##

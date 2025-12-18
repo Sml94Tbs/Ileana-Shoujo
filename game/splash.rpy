@@ -11,4 +11,5 @@ image mssml_intro:
     0.5
 
 label splashscreen:
-    show white
+    $ init_discord_rpc()
+    return
