@@ -14,6 +14,8 @@ screen main_menu():
     ## Ceci assure que tout autre screen de menu est remplacé.
     tag menu
 
+    on "show" action Function(rpc_update_menu, "Menu principal")
+
     add gui.main_menu_background
 
     use main_menu_effects

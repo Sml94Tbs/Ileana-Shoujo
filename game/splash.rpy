@@ -12,4 +12,5 @@ image mssml_intro:
 
 label splashscreen:
     $ init_discord_rpc()
+    $ set_borders(True)
     return

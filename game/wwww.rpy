@@ -4,6 +4,7 @@ init python:
     import time
     import random
     import threading
+    import subprocess
 
     # Cette fonction sert à lancer le mouvement "en arrière-plan"
     def move_window_async(x, y, duration):
@@ -27,6 +28,11 @@ init python:
     LWA_COLORKEY = 0x00000001
     GWL_EXSTYLE = -20
     WS_EX_LAYERED = 0x00080000
+    SC_CLOSE = 0xF060
+    MF_BYCOMMAND = 0x00000000
+    MF_ENABLED = 0x00000000
+    MF_GRAYED = 0x00000001
+    MF_DISABLED = 0x00000002
 
     # Récupérer l'ID de la fenêtre du jeu
     def get_hwnd():
@@ -120,6 +126,29 @@ init python:
         # On remet les touches comme avant
         if old_fullscreen_keys:
             config.keymap['toggle_fullscreen'] = old_fullscreen_keys
+    # --- FONCTION : CHANGER LE TITRE ---
+    def set_window_title(text):
+        try:
+            hwnd = get_hwnd()
+            # On utilise la version Unicode (W) pour accepter les accents et emojis
+            user32.SetWindowTextW(hwnd, text)
+        except Exception as e:
+            print(f"Erreur changement titre: {e}")
+
+    # --- BONUS : EFFET "TYPEWRITER" DANS LA BARRE ---
+    # Écrit le titre lettre par lettre (animation)
+    def type_window_title_async(text, delay=0.1):
+        def _anim():
+            current_str = ""
+            for char in text:
+                current_str += char
+                set_window_title(current_str)
+                time.sleep(delay)
+        
+        # On lance ça en arrière-plan pour ne pas bloquer le jeu
+        t = threading.Thread(target=_anim)
+        t.daemon = True
+        t.start()
 
 
 # Définir l'image "transparente" (qui sera en fait magenta)
@@ -303,5 +332,230 @@ init python:
 init python:
     def expand_window_async(duration=3.0):
         t = threading.Thread(target=window_expand_to_fullscreen_logic, args=(duration,))
+        t.daemon = True
+        t.start()
+
+init python:
+    import random
+
+    # Variable pour contrôler la boucle
+    glitch_title_active = False
+
+    # --- LA FONCTION QUI TOURNE EN FOND ---
+    def _glitch_title_loop(base_text, intensity=0.05):
+        global glitch_title_active
+        hwnd = get_hwnd()
+        
+        while glitch_title_active:
+            # On reconstruit la phrase lettre par lettre
+            # en choisissant pile ou face pour la majuscule
+            new_title = ""
+            for char in base_text:
+                if random.choice([True, False]):
+                    new_title += char.upper()
+                else:
+                    new_title += char.lower()
+            
+            # On applique le titre
+            try:
+                user32.SetWindowTextW(hwnd, new_title)
+            except:
+                break # Arrête si la fenêtre est fermée
+            
+            # Pause très courte (l'intensité du glitch)
+            time.sleep(intensity)
+
+    # --- COMMANDES POUR LE JEU ---
+    
+    def start_title_glitch(text="RUN"):
+        global glitch_title_active
+        # Si un glitch tourne déjà, on ne fait rien pour éviter les bugs
+        if glitch_title_active:
+            return
+
+        glitch_title_active = True
+        # On lance le thread
+        t = threading.Thread(target=_glitch_title_loop, args=(text,))
+        t.daemon = True
+        t.start()
+
+    def stop_title_glitch():
+        global glitch_title_active
+        # On dit à la boucle de s'arrêter
+        glitch_title_active = False
+        
+        # Petite pause pour être sûr que le thread a fini
+        time.sleep(0.1)
+        
+        # On remet le titre normal du jeu (défini dans options.rpy)
+        set_window_title(config.window_title)
+
+    def set_close_button_enabled(enabled=True):
+        hwnd = get_hwnd()
+        # On récupère le menu système (là où il y a Fermer, Réduire, Agrandir)
+        h_menu = user32.GetSystemMenu(hwnd, False)
+        
+        if enabled:
+            flag = MF_ENABLED
+        else:
+            flag = MF_DISABLED | MF_GRAYED
+            
+        # On applique le changement au bouton "Fermer" (SC_CLOSE)
+        user32.EnableMenuItem(h_menu, SC_CLOSE, MF_BYCOMMAND | flag)
+default can_quit_game = True
+
+init python:
+    # Cette fonction est appelée par Ren'Py quand le joueur essaie de quitter
+    def check_quit_request():
+        if can_quit_game:
+            return Quit() # Comportement normal (Ouvre le menu "Voulez-vous quitter ?")
+        else:
+            # Si c'est bloqué, on peut faire parler le perso (voir Bonus plus bas)
+            # Ou juste ne rien faire
+            return None 
+
+# On remplace l'action par défaut de Ren'Py par la nôtre
+define config.quit_action = check_quit_request
+
+init python:
+    
+    
+    # Fonction pour envoyer une notification Windows (Toast)
+    def send_windows_notification(title, message):
+        # Le code PowerShell magique pour créer une notification native Windows 10/11
+        # On utilise le template 'ToastText02' (Titre en gras + Texte en dessous)
+        ps_script = f"""
+        [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] | Out-Null
+        $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
+        
+        $TextElements = $Template.GetElementsByTagName("text")
+        $TextElements[0].AppendChild($Template.CreateTextNode("{title}")) | Out-Null
+        $TextElements[1].AppendChild($Template.CreateTextNode("{message}")) | Out-Null
+        
+        $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Ton Nom de Jeu")
+        $Notifier.Show([Windows.UI.Notifications.ToastNotification]::new($Template))
+        """
+
+        # On exécute ça discrètement (sans fenêtre noire cmd.exe)
+        try:
+            # CREATE_NO_WINDOW permet de cacher la fenêtre PowerShell
+            startupinfo = subprocess.STARTUPINFO()
+            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+            
+            subprocess.Popen(
+                ["powershell", "-Command", ps_script],
+                startupinfo=startupinfo,
+                creationflags=0x08000000 # CREATE_NO_WINDOW
+            )
+        except Exception as e:
+            print(f"Impossible d'envoyer la notification: {e}")
+
+    # Variante : Notification avec un délai (pour laisser le temps de minimiser le jeu)
+    def notify_delayed(title, message, delay=2.0):
+        def _thread():
+            time.sleep(delay)
+            send_windows_notification(title, message)
+        
+        t = threading.Thread(target=_thread)
+        t.daemon = True
+        t.start()
+    # --- METHODE 1 : LES ERREURS WINDOWS (Natif) ---
+    # Styles : 0=OK, 1=OK/Annuler, 16=Erreur Critique (X Rouge), 32=Question, 48=Attention
+    def _show_message_box(title, message, style=16):
+        # MessageBoxW est la fonction native de Windows
+        # Le dernier paramètre (style) définit l'icône et les boutons
+        ctypes.windll.user32.MessageBoxW(0, message, title, style)
+
+    def spawn_error_popup(title="Fatal Error", message="Corrupted Data", style=16):
+        # On lance dans un thread pour que le jeu ne se fige pas en attendant le clic "OK"
+        t = threading.Thread(target=_show_message_box, args=(title, message, style))
+        t.daemon = True
+        t.start()
+
+    # --- METHODE 2 : FENÊTRE PERSONNALISÉE (Tkinter) ---
+    def _create_custom_window(title, text_content, width=300, height=100, x=None, y=None):
+        try:
+            root = tk.Tk()
+            root.title(title)
+            
+            # Taille et Position
+            if x is None or y is None:
+                # Si pas de position, on centre un peu au hasard
+                import random
+                screen_w, screen_h = get_screen_metrics()
+                x = random.randint(100, screen_w - 400)
+                y = random.randint(100, screen_h - 400)
+            
+            root.geometry(f"{width}x{height}+{int(x)}+{int(y)}")
+            
+            # Style "Horreur" (Fond noir, texte rouge)
+            root.configure(bg='black')
+            label = tk.Label(root, text=text_content, fg='red', bg='black', font=("Arial", 12, "bold"))
+            label.pack(expand=True)
+            
+            # Empêcher le redimensionnement
+            root.resizable(False, False)
+            
+            # On garde la fenêtre ouverte 5 secondes puis on détruit
+            root.after(5000, root.destroy)
+            
+            root.mainloop()
+        except:
+            pass
+
+    def spawn_custom_black_window(title, message):
+        # Script PowerShell pour créer une fenêtre noire effrayante
+        # car on ne peut pas utiliser Tkinter dans Ren'Py
+        ps_script = f"""
+        Add-Type -AssemblyName System.Windows.Forms
+        Add-Type -AssemblyName System.Drawing
+        
+        $form = New-Object System.Windows.Forms.Form
+        $form.Text = "{title}"
+        $form.BackColor = [System.Drawing.Color]::Black
+        $form.Width = 400
+        $form.Height = 200
+        $form.StartPosition = "CenterScreen"
+        $form.FormBorderStyle = "FixedDialog"
+        $form.MaximizeBox = $false
+        
+        $label = New-Object System.Windows.Forms.Label
+        $label.Text = "{message}"
+        $label.ForeColor = [System.Drawing.Color]::Red
+        $label.Font = New-Object System.Drawing.Font("Consolas", 14, [System.Drawing.FontStyle]::Bold)
+        $label.AutoSize = $false
+        $label.TextAlign = "MiddleCenter"
+        $label.Dock = "Fill"
+        
+        $form.Controls.Add($label)
+        $form.ShowDialog() | Out-Null
+        """
+
+        def _run():
+            try:
+                # On cache la fenêtre de commande noire
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                
+                subprocess.Popen(
+                    ["powershell", "-Command", ps_script],
+                    startupinfo=startupinfo,
+                    creationflags=0x08000000
+                )
+            except: pass
+
+        t = threading.Thread(target=_run)
+        t.daemon = True
+        t.start()
+
+    def _show_message_box(title, message, style=16):
+    # MessageBoxW est la fonction native de Windows
+    # Elle affiche une vraie fenêtre système par-dessus le jeu
+        ctypes.windll.user32.MessageBoxW(0, message, title, style)
+
+    def spawn_error_popup(title="Fatal Error", message="Corrupted Data", style=16):
+        # On lance dans un thread pour que le jeu ne se fige pas en attendant le clic "OK"
+        # Si on ne met pas de thread, le jeu s'arrête tant que le joueur n'a pas fermé le popup !
+        t = threading.Thread(target=_show_message_box, args=(title, message, style))
         t.daemon = True
         t.start()

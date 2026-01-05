@@ -10,9 +10,12 @@ screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
 
     if main_menu:
         add gui.main_menu_background
+        on "show" action Function(rpc_update_menu, title)
         # null
     else:
         add gui.game_menu_background
+        on "show" action Function(rpc_update_menu, title)
+        on "hide" action Function(rpc_restore_game)
 
     frame:
         # On applique un style différent selon si on est au menu ou en jeu

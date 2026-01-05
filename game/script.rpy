@@ -2,7 +2,20 @@
 
 # Déclarez sous cette ligne les images, avec l'instruction 'image'
 # ex: image eileen heureuse = "eileen_heureuse.png"
+# Variable pour savoir si le joueur a le droit de sortir
 
+init python:
+    # Cette fonction est appelée par Ren'Py quand le joueur essaie de quitter
+    def check_quit_request():
+        if can_quit_game:
+            return Quit() # Comportement normal (Ouvre le menu "Voulez-vous quitter ?")
+        else:
+            # Si c'est bloqué, on peut faire parler le perso (voir Bonus plus bas)
+            # Ou juste ne rien faire
+            return None 
+
+# On remplace l'action par défaut de Ren'Py par la nôtre
+define config.quit_action = check_quit_request
 # Déclarez les personnages utilisés dans le jeu.
 define e = Character('Eileen', color="#c8ffc8")
 define nv = Character('Ileana' ,kind=nvl, color="#ffc8c8")
@@ -13,7 +26,7 @@ default current_scene = "Introduction"
 image ok = "sfx/01 A.jpg"
 # Le jeu commence ici
 label start:
-    $ update_discord(current_act, current_scene)
+    $ rpc_update_game(current_act, current_scene)
     $ quick_menu = False
     hide screen main_menu_effects
     stop music fadeout 2.0
@@ -28,9 +41,13 @@ label start:
     window auto
     $ quick_menu = True
 
+
+    $ start_title_glitch("RUN RUN RUN")
     e "Vous venez de créer un nouveau jeu Ren'Py."
 
-    
+    $ stop_title_glitch()
+
+    jump popup_event
 
     e "Après avoir ajouté une histoire, des images et de la musique, vous pourrez le présenter au monde entier !"
 
@@ -44,6 +61,16 @@ label start:
 
     scene ok
 
+    $ set_window_title("Sonic.exe")
+
+    # 2. Messages cryptiques
+    $ set_window_title("AIDE MOI")
+    pause 1.0
+    $ set_window_title("IL EST DERRIERE TOI")
+    pause 1.0
+
+    $ type_window_title_async("DON'T LOOK...", 0.2)
+
     $ quick_menu = True
 
     e "yes"
@@ -54,6 +81,7 @@ label start:
 
     show anneko at t_left
     
+    $ type_window_title_async("DON'T LOOK...", 0.2)
 
 
     "Anneko" "Coucou"
@@ -70,6 +98,8 @@ label start:
 
     show anneko at t_left_close
 
+    $ set_window_title("")
+
     narrator "The End."
     narrator "Je ne pense que cela soit du à une erreu de ta partujguguyyfgufffttyfrtytfyftyftftfyfytftyftftyfftyftfyfyttrtrtrtrturyturytrutyrutyrutyrutryutryutry"
     narrator "Je ne pense que cela soit du à une erreu de ta part"
@@ -83,6 +113,7 @@ label start:
     narrator "Viens a moi jeune"
     narrator "Viens a moi jeune"
     scene white
+    $ set_window_title(config.window_title)
     $ gui.nvl_bg_bool = True
     narrator "Viens a moi jeune"
     narrator "Viens a moi jeune"
@@ -92,7 +123,7 @@ label start:
     # --- EFFET 1 : TREMBLEMENT ---
     "Anneko" "La fenêtre... elle tremble !"
     $ current_scene = "Coucou Toi!"
-    $ update_discord(current_act, current_scene)
+    $ rpc_update_game(current_act, current_scene)
     show anneko at t_center
     $ force_windowed_mode()
     $ lock_fullscreen()
@@ -334,3 +365,109 @@ transform shake_anim:
     linear 0.05 yoffset 5
     linear 0.05 yoffset -5
     repeat
+
+
+label trap:
+    e "Je pense qu'on devrait rester ensemble un peu plus longtemps..."
+    
+    # 1. On grise le bouton X (Effet visuel)
+    $ set_close_button_enabled(False)
+    
+    # 2. On bloque Alt+F4 (Effet logique)
+    $ can_quit_game = False
+    
+    play sound "audio/lock_door.ogg"
+    
+    e "Voilà. Personne ne sort."
+    
+    # Le joueur essaie de cliquer sur la croix : elle est grise.
+    # Le joueur fait Alt+F4 : rien ne se passe.
+    
+    pause 2.0
+    
+    e "Inutile d'insister."
+    
+    # ... L'histoire continue ...
+    
+    # 3. LIBÉRATION (Très important de ne pas oublier !)
+    $ set_close_button_enabled(True)
+    $ can_quit_game = True
+    
+    e "Allez, tu peux partir maintenant."
+
+    return
+
+label notification_event:
+    
+    e "Je n'aime pas que tu me regardes comme ça."
+    e "Arrête de me regarder."
+
+    # 1. On minimise le jeu (Le joueur se retrouve sur son bureau)
+    $ renpy.iconify()
+    
+    # 2. On attend 2 secondes que le joueur soit confus devant son fond d'écran
+    pause 2.0
+    
+    # 3. La notification Windows apparaît en bas à droite
+    $ send_windows_notification("GOOD LUCK")
+    
+    pause 3.0
+    
+    # 4. Une deuxième pour la pression
+    $ send_windows_notification("Système", "Fichier 'soul.dat' introuvable.")
+    
+    # Le joueur doit cliquer sur l'icône dans la barre des tâches pour revenir
+    # (ou tu peux utiliser window_kick() pour faire clignoter la barre)
+    
+    pause 2.0
+    
+    # Quand il revient...
+    e "Tu croyais pouvoir t'échapper ?"
+
+    return
+
+label popup_event:
+    
+    e "Je crois qu'il y a un problème avec ton ordinateur..."
+
+    # 1. SIMPLE ERREUR WINDOWS
+    # Affiche une boîte de dialogue avec le son d'erreur
+    $ spawn_error_popup("System Error", "Le fichier 'hope.chr' est manquant.", 16)
+    
+    play sound "audio/windows_error_sound.ogg"
+    
+    e "Tu entends ça ?"
+    
+    pause 1.0
+
+    # 2. SPAM D'ERREURS (L'effet Virus)
+    # On lance 10 fenêtres d'un coup à des endroits aléatoires (Windows gère le placement en cascade)
+    python:
+        for i in range(5):
+            spawn_error_popup("RUN", "DON'T LOOK BEHIND YOU", 48) # 48 = Warning (Triangle Jaune)
+            renpy.pause(0.2) # Petite pause entre chaque pour l'effet "mitraillette"
+            
+    e "C'est incontrôlable !"
+
+    # 3. FENÊTRE PERSONNALISÉE (Contenu Noir/Rouge)
+    # Apparaît à une position précise (x=100, y=100 : Coin haut gauche)
+    $ spawn_custom_black_window("???", "JE SUIS SORTI")
+    
+    e "Regarde en haut à gauche de ton écran..."
+    
+    pause 2.0
+    
+    e "Ferme-les ! Vite !"
+
+    # 1. Le Popup Windows classique (Gris) - Marche instantanément
+    $ spawn_error_popup("Système", "Fichier manquant.", 16)
+    
+    e "Une erreur Windows..."
+    
+    # 2. La Fenêtre Horreur (Noire/Rouge via PowerShell)
+    # Elle peut mettre 1 seconde à apparaître, le temps que PowerShell se lance
+    $ spawn_custom_black_window("???", "JE TE VOIS")
+    
+    e "C'est quoi cette fenêtre noire ?!"
+
+    return
