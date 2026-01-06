@@ -2,7 +2,7 @@ init python:
     # Liste de tuples : ("Titre Affiché", "chemin/du/fichier.ogg")
     jukebox_playlist = [
         ("BGM BoomBap", "audio/bgm/bgm_boombapv4.mp3"),
-        ("BGM TrapSoul",   "audio/bgm/bgm_trapsoul.ogg"),
+        ("BGM TrapSoul",   "audio/bgm/1.ogg"),
         ("Combat Boss",     "audio/bgm/battle_boss.opus"),
         ("Tristesse",       "audio/bgm/test5.mp3"),
         # Ajoute autant de musiques que tu veux ici !

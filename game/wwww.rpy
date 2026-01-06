@@ -420,35 +420,37 @@ define config.quit_action = check_quit_request
 init python:
     
     
-    # Fonction pour envoyer une notification Windows (Toast)
-    def send_windows_notification(title, message):
-        # Le code PowerShell magique pour créer une notification native Windows 10/11
-        # On utilise le template 'ToastText02' (Titre en gras + Texte en dessous)
+    # --- PARTIE 1 : Le "Travailleur" (Invisible) ---
+    # C'est lui qui parle à Windows. On le met à part pour ne pas bloquer le jeu.
+    def _toast_worker(title, message):
+        # Le script PowerShell (Attention à ne pas toucher les guillemets)
         ps_script = f"""
+        $ErrorActionPreference = 'SilentlyContinue'
         [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType=WindowsRuntime] | Out-Null
         $Template = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent([Windows.UI.Notifications.ToastTemplateType]::ToastText02)
-        
         $TextElements = $Template.GetElementsByTagName("text")
         $TextElements[0].AppendChild($Template.CreateTextNode("{title}")) | Out-Null
         $TextElements[1].AppendChild($Template.CreateTextNode("{message}")) | Out-Null
-        
-        $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Ton Nom de Jeu")
+        $Notifier = [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Alerte Système")
         $Notifier.Show([Windows.UI.Notifications.ToastNotification]::new($Template))
         """
-
-        # On exécute ça discrètement (sans fenêtre noire cmd.exe)
+        
         try:
-            # CREATE_NO_WINDOW permet de cacher la fenêtre PowerShell
-            startupinfo = subprocess.STARTUPINFO()
-            startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-            
-            subprocess.Popen(
-                ["powershell", "-Command", ps_script],
-                startupinfo=startupinfo,
-                creationflags=0x08000000 # CREATE_NO_WINDOW
+            # On utilise subprocess.run qui est plus propre pour la mémoire que Popen
+            subprocess.run(
+                ["powershell", "-Command", ps_script], 
+                creationflags=0x08000000 # CREATE_NO_WINDOW (Cache la fenêtre noire)
             )
-        except Exception as e:
-            print(f"Impossible d'envoyer la notification: {e}")
+        except:
+            pass
+
+    # --- PARTIE 2 : La Commande (Celle que tu utilises) ---
+    # Elle prend EXACTEMENT 2 arguments : title et message.
+    def send_windows_notification(title, message):
+        # On lance le travailleur dans un thread parallèle
+        t = threading.Thread(target=_toast_worker, args=(title, message))
+        t.daemon = True # Important : permet de tuer le thread si on ferme le jeu
+        t.start()
 
     # Variante : Notification avec un délai (pour laisser le temps de minimiser le jeu)
     def notify_delayed(title, message, delay=2.0):
@@ -559,3 +561,16 @@ init python:
         t = threading.Thread(target=_show_message_box, args=(title, message, style))
         t.daemon = True
         t.start()
+
+init python:
+    # Cette fonction est appelée par Ren'Py quand le joueur essaie de quitter
+    def check_quit_request():
+        if can_quit_game:
+            return Quit() # Comportement normal (Ouvre le menu "Voulez-vous quitter ?")
+        else:
+            # Si c'est bloqué, on peut faire parler le perso (voir Bonus plus bas)
+            # Ou juste ne rien faire
+            return None
+
+# On remplace l'action par défaut de Ren'Py par la nôtre
+define config.quit_action = check_quit_request

@@ -4,18 +4,9 @@
 # ex: image eileen heureuse = "eileen_heureuse.png"
 # Variable pour savoir si le joueur a le droit de sortir
 
-init python:
-    # Cette fonction est appelée par Ren'Py quand le joueur essaie de quitter
-    def check_quit_request():
-        if can_quit_game:
-            return Quit() # Comportement normal (Ouvre le menu "Voulez-vous quitter ?")
-        else:
-            # Si c'est bloqué, on peut faire parler le perso (voir Bonus plus bas)
-            # Ou juste ne rien faire
-            return None 
 
-# On remplace l'action par défaut de Ren'Py par la nôtre
-define config.quit_action = check_quit_request
+
+
 # Déclarez les personnages utilisés dans le jeu.
 define e = Character('Eileen', color="#c8ffc8")
 define nv = Character('Ileana' ,kind=nvl, color="#ffc8c8")
@@ -46,8 +37,6 @@ label start:
     e "Vous venez de créer un nouveau jeu Ren'Py."
 
     $ stop_title_glitch()
-
-    jump popup_event
 
     e "Après avoir ajouté une histoire, des images et de la musique, vous pourrez le présenter au monde entier !"
 
@@ -355,6 +344,8 @@ label expand_event:
 
     e "Voilà. Maintenant je contrôle tout l'écran."
 
+    jump trap
+
     return
 
 # Petite animation de tremblement pour accompagner l'agrandissement
@@ -395,6 +386,8 @@ label trap:
     
     e "Allez, tu peux partir maintenant."
 
+    jump notification_event
+
     return
 
 label notification_event:
@@ -409,7 +402,7 @@ label notification_event:
     pause 2.0
     
     # 3. La notification Windows apparaît en bas à droite
-    $ send_windows_notification("GOOD LUCK")
+    $ send_windows_notification("Système", "GOOD LUCK")
     
     pause 3.0
     
@@ -423,6 +416,8 @@ label notification_event:
     
     # Quand il revient...
     e "Tu croyais pouvoir t'échapper ?"
+
+    jump popup_event
 
     return
 
