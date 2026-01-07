@@ -1,0 +1,21 @@
+start_title_glitch() : La nom de la fenêtre bugs
+stop_title_glitch() : Le nom de la fenêtre arrête de bugger
+set_close_button_enabled (Boolean) : Empeche le joueur de quitter 
+can_quit_game (Boolean) : Empeche le joueur de quitter (Alt + F4)
+send_windows_notification = Envoi une notification Windows a l'utilisateur
+spawn_error_popup() = Fait apparaitre une fenètre d'erreur Windows (16, 48, 64, 0)
+expand_window_async(Temps du zoom) = LANCEMENT DU ZOOM DE LA FENETRE
+set_borders (Boolean) = permet d'afficher la barre de la fenêtre windows
+window_move_smooth (x,y,duration) = permet de faire bouger la fenetre
+move_window_async() = même chose mais cela ne fait pas planter le jeu
+window_jump_to() = permet de faire des sauter la fenetre ("center", "top_left", "top_right", "bottom_left", "bottom_right")
+window_kick() = Fait sauter la fenêtre vers le haut et retomber, parfait pour les rythmes
+force_windowed_mode() = force le jeu a ce mettre en mode fenêtrer
+unlock_fullscreen() =  DÉBLOQUER LE PLEIN ÉCRAN
+lock_fullscreen() = BLOQUER LE PLEIN ÉCRAN
+reset_window() = RESTAURER LA FENÊTRE
+set_window_pos(x,y) = BOUGER LA FENÊTRE
+shake_window(duration, intensity) =  FAIRE TREMBLER LA FENÊTRE
+set_window_transparent = Cette fonction va rendre INVISIBLE une couleur précise Ce qui permet de voir le bureau derrière
+set_window_title(Character) = CHANGER LE TITRE
+type_window_title_async = Écrit le titre lettre par lettre (animation) EFFET "TYPEWRITER" DANS LA BARRE

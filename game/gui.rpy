@@ -23,7 +23,7 @@ define config.check_conflicting_properties = True
 ## Les couleurs du texte dans l’interface.
 
 ## Une couleur utilisée dans l’interface pour mettre l’accent sur un texte (surbrillance).
-define gui.accent_color = '#0099cc'
+define gui.accent_color = '#ffffff'
 
 ## La couleur utilisée pour le texte d’un bouton quand il n’a jamais été sélectionné ou survolé.
 define gui.idle_color = '#888888'
@@ -52,38 +52,43 @@ define gui.interface_text_color = '#ffffff'
 ## Polices et tailles de police ################################################
 
 ## Les polices utilisées pour le texte du jeu.
-define gui.text_font = "DejaVuSans.ttf"
+define gui.text_font = "fonts/HELVETICA.TTF"
+
+##Les poclices utilisées pour le menu et l’interface de jeu.
+define gui.interface_font = "fonts/times.ttf"
 
 ## Les polices utilisées pour le nom des personnages.
-define gui.name_text_font = "DejaVuSans.ttf"
+define gui.name_text_font = "fonts/HELVETICA.TTF"
 
 ## Les polices utilisées pour les textes « hors du jeu ».
-define gui.interface_text_font = "DejaVuSans.ttf"
+define gui.interface_text_font = "fonts/times.ttf"
+
+define gui.anime_dialogue_font = "fonts/Rosario-Regular.otf"
 
 ## La taille normale pour les dialogues.
-define gui.text_size = 33
+define gui.text_size = 24
 
 ## La taille pour le nom des personnages.
-define gui.name_text_size = 45
+define gui.name_text_size = 24
 
 ## La taille du texte dans l’interface de jeu.
-define gui.interface_text_size = 33
+define gui.interface_text_size = 24
 
 ## La taille des libellés dans l’interface de jeu.
-define gui.label_text_size = 36
+define gui.label_text_size = 28
 
 ## La taille du texte dans la zone de notification.
-define gui.notify_text_size = 24
+define gui.notify_text_size = 16
 
 ## La taille du titre du jeu.
-define gui.title_text_size = 75
+define gui.title_text_size = 38 
 
 
 ## Menu du jeu et menu principal ###############################################
 
 ## Les images utilisées pour le menu principal et le menu du jeu.
-define gui.main_menu_background = "gui/main_menu.png"
-define gui.game_menu_background = "gui/game_menu.png"
+define gui.main_menu_background = "gui/uiiiiii.jpg"
+define gui.game_menu_background = "#00000044"
 
 
 ## Dialogue ####################################################################
@@ -98,29 +103,29 @@ define gui.textbox_yalign = 1.0
 
 
 ## L’emplacement relatif à la zone de texte du nom du personnage en train de parler. La valeur peut être un nombre entier de pixels depuis la gauche ou le haut ou 0.5 pour le centre.
-define gui.name_xpos = 360
-define gui.name_ypos = 0
+define gui.name_xpos = 490
+define gui.name_ypos = 15
 
 ## L’alignement horizontal du nom du personnage. La valeur peut être 0.0 pour un alignement à gauche, 0.5 pour le centrer et 1.0 pour un alignement à droite.
-define gui.name_xalign = 0.0
+define gui.name_xalign = 0.5
 
 ## La largeur, profondeur et les bords de la zone contenant le nom du personnage ou « None » pour le dimensionner automatiquement.
-define gui.namebox_width = None
-define gui.namebox_height = None
+define gui.namebox_width = 200
+define gui.namebox_height = 39
 
 ## Les bordures de la zone contenant le nom du personnage dans l’ordre suivant gauche, haut, droite, bas.
-define gui.namebox_borders = Borders(5, 5, 5, 5)
+define gui.namebox_borders = Borders(5, 5, 5, 2)
 
 ## Si « True » (vrai), l’arrière plan de zone du nom sera en mosaïque, si « False »(faux), l’arrière plan de la zone du nom sera mis à l’échelle.
 define gui.namebox_tile = False
 
 
 ## L’emplacement du dialogue relatif à la zone de texte. La valeur peut être un nombre entier de pixels depuis la gauche ou le haut ou 0.5 pour le centre.
-define gui.dialogue_xpos = 402
-define gui.dialogue_ypos = 75
+define gui.dialogue_xpos = 370
+define gui.dialogue_ypos = 80
 
 ## La largeur maximale en pixels de la zone de dialogue.
-define gui.dialogue_width = 1116
+define gui.dialogue_width = 2.50
 
 ## L’alignement horizontal de la zone de dialogue. La valeur peut être 0.0 pour un alignement à gauche, 0.5 pour le centrer et 1.0 pour un alignement à droite.
 define gui.dialogue_text_xalign = 0.0
@@ -132,10 +137,10 @@ define gui.dialogue_text_xalign = 0.0
 
 ## La largeur et la hauteur d’un bouton en pixels. Si aucune valeur n’est renseignée (None), Ren’Py calcule la taille.
 define gui.button_width = None
-define gui.button_height = None
+define gui.button_height = 36
 
 ## Les bordures de chaque côté du bouton dans l’ordre suivant gauche, haut, droit, bas.
-define gui.button_borders = Borders(6, 6, 6, 6)
+define gui.button_borders = Borders(4, 4, 4, 4)
 
 ## Si « True » (vrai), l’image d’arrière plan sera en mosaïque, si « False »(faux), elle sera mise à l’échelle.
 define gui.button_tile = False
@@ -222,7 +227,7 @@ define gui.file_slot_rows = 2
 ## Ces variables contrôlent l’espacement et le positionnement des différents éléments de l’interface utilisateur.
 
 ## La position sur le côté gauche des boutons de navigation, relatif au côté gauche de l'écran.
-define gui.navigation_xpos = 60
+define gui.navigation_xpos = 80
 
 ## La position vertical du l’indicateur de saut des dialogues.
 define gui.skip_ypos = 15
@@ -234,10 +239,10 @@ define gui.notify_ypos = 68
 define gui.choice_spacing = 33
 
 ## Boutons dans la section de navigation du menu principal et du menu de jeu.
-define gui.navigation_spacing = 6
+define gui.navigation_spacing = 20
 
 ## Contrôle l’espacement entre les préférences.
-define gui.pref_spacing = 15
+define gui.pref_spacing = 30
 
 ## Contrôle l’espacements entre les boutons de préférences.
 define gui.pref_button_spacing = 0
@@ -332,29 +337,33 @@ define gui.history_text_xalign = 0.0
 ##
 ## L’écran du mode NVL affiche les dialogues prononcés par les personnages eux-mêmes en mode NVL.
 
+
+define gui.nvl_default_background = "gui/nvl.png"
+define gui.nvl_bg_bool = True
+
 ## Les bordures de l’arrière-plan de la fenêtre en mode NVL.
-define gui.nvl_borders = Borders(0, 15, 0, 30)
+define gui.nvl_borders = Borders(0, 350, 0, 0)
 
 ## Le nombre maximum d'entrées en mode NVL que Ren'Py affichera. Quand plus d'entrées sont affichées, les plus anciennes seront retirées.
-define gui.nvl_list_length = 6
+define gui.nvl_list_length = 20
 
 ## La hauteur d’une entrée en mode NVL. Initialisez-la à « None » pour que la hauteur des entrées s’ajuste automatiquement.
-define gui.nvl_height = 173
+define gui.nvl_height = None
 
 ## L’espacement entre les entrées en mode NVL quand gui.nvl_height est à « None » et entre les entrées en mode NVL et le menu en mode NVL.
-define gui.nvl_spacing = 15
+define gui.nvl_spacing = 0
 
 ## La position, largeur et alignement du label donnant le nom du personnage en train de parler.
 define gui.nvl_name_xpos = 645
-define gui.nvl_name_ypos = 0
+define gui.nvl_name_ypos = 0    
 define gui.nvl_name_width = 225
 define gui.nvl_name_xalign = 1.0
 
 ## La position, largeur et alignement de la zone de dialogue.
 define gui.nvl_text_xpos = 675
 define gui.nvl_text_ypos = 12
-define gui.nvl_text_width = 885
-define gui.nvl_text_xalign = 0.0
+define gui.nvl_text_width = 1200
+define gui.nvl_text_xalign = 0.5
 
 ## La position, profondeur et l’alignement du text nvl_tought (Le texte prononcé par le personnage nvl_narrator).
 define gui.nvl_thought_xpos = 360

@@ -19,7 +19,7 @@ define gui.show_name = True
 
 ## La version du jeu.
 
-define config.version = "1.0"
+define config.version = "0.1.4"
 
 
 ## Texte placé sur l'écran "À propos" du jeu. Placez le texte entre triples guillemets, et laissez une ligne entre les paragraphes.
@@ -27,10 +27,12 @@ define config.version = "1.0"
 define gui.about = _p("""
 """)
 
+default _game_menu_screen = "pause_menu"
+
 
 ## Un nom court pour le jeu qui sera utilisé pour les répertoires et le nom de l’exécutable. Il ne doit contenir que des caractères ASCII et ne doit pas contenir d’espace, de virgules ou de points-virgules.
 
-define build.name = "IleanaShoujo"
+define build.name = "IS"
 
 
 ## Sons et musiques ############################################################
@@ -39,7 +41,7 @@ define build.name = "IleanaShoujo"
 
 define config.has_sound = True
 define config.has_music = True
-define config.has_voice = True
+define config.has_voice = False
 
 
 ## Pour autoriser le joueur à réaliser un test de volume, décommenter la ligne ci-dessous et utilisez-la pour configurer un son d’exemple.
@@ -59,13 +61,13 @@ define config.has_voice = True
 
 ## À l’entrée ou à la sortie du menu du jeu.
 
-define config.enter_transition = dissolve
-define config.exit_transition = dissolve
+define config.enter_transition = Dissolve(.2)
+define config.exit_transition = Dissolve(.2)
 
 
 ## Entre les écrans du menu du jeu.
 
-define config.intra_transition = dissolve
+define config.intra_transition = Dissolve(.5)
 
 
 ## La transition qui sera utilisée après le chargement d’une partie.
@@ -75,7 +77,7 @@ define config.after_load_transition = None
 
 ## La transition qui sera utilisé après la fin du jeu.
 
-define config.end_game_transition = None
+define config.end_game_transition = Dissolve(.5)
 
 
 ## Il n’y a pas de variable pour configurer la transition en début de partie. À la place, utilisez un état de transition juste après l’affichage de la toute première scène.
@@ -128,6 +130,14 @@ define config.save_directory = "IleanaShoujo-1763252719"
 ## L'icone affichée dans la barre des tâches ou sur le dock.
 
 define config.window_icon = "gui/window_icon.png"
+
+# Met sur False car tu sais que ton CPU galère, 
+# mais tu pourras le mettre sur True dans un menu d'options pour les joueurs avec un gros PC.
+default persistent.allow_transparent_window = False 
+
+# Image du placeholder (Plan B)
+# Tu peux prendre une capture d'écran d'un bureau générique ou une texture "Matrix/Cyberpunk"
+image bg placeholder_desktop = Solid("#333a")  # Remplace par une image réelle dans le dossier images/bg/
 
 
 ## Configuration de la compilation #############################################
